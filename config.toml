@@ -1,8 +1,21 @@
 # The URL the site will be built for
 base_url = "https://blog.bearby.io/"
 
+# The site title and description; used in feeds and by the theme.
+title = "Bearby Blog"
+description = "The official blog of Bearby — a non-custodial wallet for the Massa blockchain."
+
+# The default author for pages
+author = "Bearby"
+
+# Use the Terminus theme (installed as a git submodule under themes/)
+theme = "terminus"
+
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
+
+# When set to "true", a feed is automatically generated.
+generate_feeds = true
 
 # Whether to build a search index to be used later on by a JavaScript library
 build_search_index = true
@@ -17,4 +30,12 @@ taxonomies = [
 theme = "catppuccin-mocha"
 
 [extra]
-# Put all your custom variables here
+color_scheme = "catppuccin-mocha"
+copy_button = true
+feed_icon = true
+layout = "center"
+
+main_menu = [
+    { name = "blog", url = "blog", trailing_slash = true },
+    { name = "tags", url = "tags", trailing_slash = true },
+]
