@@ -1,0 +1,43 @@
+# Telegram Instant View template — blog.bearby.io (Zola + Terminus theme)
+# ──────────────────────────────────────────────────────────────────────────────
+# HOW TO ACTIVATE (one-time, ~3 minutes):
+#   1. Deploy the site so https://blog.bearby.io/ is live.
+#   2. Open  https://instantview.telegram.org
+#   3. Paste an article URL, e.g.
+#        https://blog.bearby.io/blog/balancer-v2-stable-pool-hack-2025/
+#   4. Click "Edit template" and paste EVERYTHING below this line.
+#   5. Hit "Preview" — you should see the article render inside Telegram.
+#   6. Click "Submit for review". Once approved, EVERY blog.bearby.io link
+#      gets a ⚡ Instant View button automatically in Telegram.
+#
+# Until it is reviewed you can still share a one-off IV link:
+#   https://t.me/iv?url=<URL-ENCODED-ARTICLE>&rhash=<your template hash>
+# (the rhash appears in the editor's top-right once you save the template)
+# ──────────────────────────────────────────────────────────────────────────────
+
+~version: "2.1"
+
+# Require the Terminus <article class="post ..."> wrapper so the template
+# only matches real blog posts, not the homepage / tag pages.
+?exists: //article[contains(@class, "post")]
+
+# Readable body = the whole article (nav + comments live OUTSIDE <article>,
+# so they are excluded automatically).
+body: //article[contains(@class, "post")]
+
+# Title
+title: //h1[contains(@class, "post-title")]
+
+# Cover image = first <img> inside the article (cover.png)
+cover: //article//img[1]/@src
+
+# Subtitle / description pulled from the Open Graph tag
+description: //meta[@property="og:description"]/@content
+
+# Author + publish date pulled from the Twitter/article meta tags
+author:        //meta[@name="twitter:data1"]/@content
+published_date: //meta[@property="article:published_time"]/@content
+
+# Drop the duplicate hero image at the very top of the body
+# (it is already shown as the cover).
+@remove: //article//img[1][@alt="Cover"]

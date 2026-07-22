@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="440" viewBox="0 0 920 440" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<rect width="920" height="440" fill="#11111b"/>
+<text x="40" y="36" font-size="15" fill="#cba6f7" text-anchor="start" font-weight="bold">SCALING-FACTOR ROUNDING  ·  mulDown(b, f) = ⌊ b·f / 1e18 ⌋</text>
+<text x="40" y="58" font-size="12" fill="#a6adc8" text-anchor="start" font-weight="normal">osETH scaling factor  f = 1.073369637857500505e18  (rate &gt; 1, verified on-chain)</text>
+<rect x="50" y="74" width="460" height="26" rx="4" fill="#181825" stroke="#313244" stroke-width="1.5"/>
+<text x="68" y="92" font-size="12" fill="#a6adc8" text-anchor="start" font-weight="bold">b (wei)</text>
+<text x="138" y="92" font-size="12" fill="#a6adc8" text-anchor="start" font-weight="bold">⌊b·f/1e18⌋</text>
+<text x="258" y="92" font-size="12" fill="#a6adc8" text-anchor="start" font-weight="bold">true b·f/1e18</text>
+<text x="388" y="92" font-size="12" fill="#a6adc8" text-anchor="start" font-weight="bold">rel. loss</text>
+<text x="516" y="92" font-size="11" fill="#f9e2af" text-anchor="start" font-weight="normal">← pool balance regime in phase 2</text>
+<rect x="50" y="108" width="460" height="28" rx="4" fill="#1e1e2e" stroke="#313244" stroke-width="1.5"/>
+<text x="68" y="126" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">1</text>
+<text x="138" y="126" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">1</text>
+<text x="258" y="126" font-size="12" fill="#f9e2af" text-anchor="start" font-weight="normal">1.0734</text>
+<text x="388" y="126" font-size="12" fill="#f9e2af" text-anchor="start" font-weight="normal">7.34%</text>
+<rect x="50" y="138" width="460" height="28" rx="4" fill="#1e1e2e" stroke="#313244" stroke-width="1.5"/>
+<text x="68" y="156" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">3</text>
+<text x="138" y="156" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">3</text>
+<text x="258" y="156" font-size="12" fill="#f9e2af" text-anchor="start" font-weight="normal">3.2201</text>
+<text x="388" y="156" font-size="12" fill="#f9e2af" text-anchor="start" font-weight="normal">6.84%</text>
+<rect x="50" y="168" width="460" height="28" rx="4" fill="#f38ba8" stroke="#f38ba8" stroke-width="1.5"/>
+<text x="68" y="186" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">8</text>
+<text x="138" y="186" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">8</text>
+<text x="258" y="186" font-size="12" fill="#f9e2af" text-anchor="start" font-weight="normal">8.5870</text>
+<text x="388" y="186" font-size="12" fill="#f38ba8" text-anchor="start" font-weight="normal">6.83%</text>
+<rect x="50" y="198" width="460" height="28" rx="4" fill="#f38ba8" stroke="#f38ba8" stroke-width="1.5"/>
+<text x="68" y="216" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">9</text>
+<text x="138" y="216" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">9</text>
+<text x="258" y="216" font-size="12" fill="#f9e2af" text-anchor="start" font-weight="normal">9.6603</text>
+<text x="388" y="216" font-size="12" fill="#f38ba8" text-anchor="start" font-weight="normal">6.83%</text>
+<rect x="50" y="228" width="460" height="28" rx="4" fill="#1e1e2e" stroke="#313244" stroke-width="1.5"/>
+<text x="68" y="246" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">17</text>
+<text x="138" y="246" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">18</text>
+<text x="258" y="246" font-size="12" fill="#f9e2af" text-anchor="start" font-weight="normal">18.2473</text>
+<text x="388" y="246" font-size="12" fill="#f9e2af" text-anchor="start" font-weight="normal">1.36%</text>
+<rect x="50" y="258" width="460" height="28" rx="4" fill="#1e1e2e" stroke="#313244" stroke-width="1.5"/>
+<text x="68" y="276" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">69</text>
+<text x="138" y="276" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">74</text>
+<text x="258" y="276" font-size="12" fill="#f9e2af" text-anchor="start" font-weight="normal">74.0625</text>
+<text x="388" y="276" font-size="12" fill="#f9e2af" text-anchor="start" font-weight="normal">0.08%</text>
+<rect x="594" y="84" width="290" height="250" rx="6" fill="#181825" stroke="#313244" stroke-width="1.5"/>
+<text x="608" y="102" font-size="12" fill="#a6adc8" text-anchor="start" font-weight="bold">floor loss vs balance b</text>
+<line x1="630" y1="310" x2="850" y2="310" stroke="#313244"/><line x1="630" y1="310" x2="630" y2="130" stroke="#313244"/><rect x="637" y="307.0652144857" width="8" height="2.9347855143000174" fill="#a6e3a1" opacity="0.85"/><rect x="648" y="304.13042897139997" width="8" height="5.869571028600035" fill="#a6e3a1" opacity="0.85"/><rect x="659" y="301.19564345709995" width="8" height="8.804356542900052" fill="#f9e2af" opacity="0.85"/><rect x="670" y="298.26085794279993" width="8" height="11.73914205720007" fill="#f9e2af" opacity="0.85"/><rect x="681" y="295.32607242849986" width="8" height="14.673927571500144" fill="#f9e2af" opacity="0.85"/><rect x="692" y="292.39128691419984" width="8" height="17.60871308580016" fill="#f9e2af" opacity="0.85"/><rect x="703" y="289.4565013998998" width="8" height="20.54349860010018" fill="#f9e2af" opacity="0.85"/><rect x="714" y="286.5217158855998" width="8" height="23.478284114400196" fill="#f38ba8" opacity="0.85"/><rect x="725" y="283.5869303712998" width="8" height="26.413069628700214" fill="#f38ba8" opacity="0.85"/><rect x="736" y="280.65214485699977" width="8" height="29.34785514300023" fill="#f38ba8" opacity="0.85"/><rect x="747" y="277.7173593426997" width="8" height="32.282640657300306" fill="#f38ba8" opacity="0.85"/><rect x="758" y="274.7825738283997" width="8" height="35.21742617160032" fill="#f38ba8" opacity="0.85"/><rect x="769" y="271.8477883140997" width="8" height="38.152211685900284" fill="#f38ba8" opacity="0.85"/><rect x="780" y="308.91300279979964" width="8" height="1.0869972002003578" fill="#a6e3a1" opacity="0.85"/><rect x="791" y="305.97821728549957" width="8" height="4.021782714500432" fill="#a6e3a1" opacity="0.85"/><rect x="802" y="303.0434317711996" width="8" height="6.956568228800393" fill="#a6e3a1" opacity="0.85"/><rect x="813" y="300.10864625689965" width="8" height="9.891353743100353" fill="#f9e2af" opacity="0.85"/><rect x="824" y="297.17386074259963" width="8" height="12.82613925740037" fill="#f9e2af" opacity="0.85"/><rect x="835" y="294.2390752282995" width="8" height="15.760924771700502" fill="#f9e2af" opacity="0.85"/><rect x="846" y="291.30428971399954" width="8" height="18.695710286000462" fill="#f9e2af" opacity="0.85"/><text x="740" y="330" font-size="11" fill="#a6adc8" text-anchor="middle" font-weight="normal">balance b (wei) →</text>
+</svg>

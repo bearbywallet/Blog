@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="210" viewBox="0 0 900 210" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<rect width="900" height="210" fill="#11111b"/>
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#a6adc8"/></marker></defs>
+<text x="40" y="38" font-size="16" fill="#cba6f7" text-anchor="start" font-weight="bold">ATTACK TIMELINE  ·  84 seconds, atomically</text>
+<rect x="40" y="70" width="330" height="95" rx="8" fill="#261c2e" stroke="#cba6f7" stroke-width="2"/>
+<text x="60" y="98" font-size="14" fill="#cba6f7" text-anchor="start" font-weight="bold">TX 1 — THEFT</text>
+<text x="60" y="120" font-size="12" fill="#a6adc8" text-anchor="start" font-weight="normal">07:46:47 UTC  ·  block 23,717,397</text>
+<text x="60" y="140" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">constructor() → batchSwap</text>
+<text x="60" y="158" font-size="12" fill="#a6adc8" text-anchor="start" font-weight="normal">226 swaps  ·  65 fee transfers</text>
+<line x1="378" y1="117" x2="472" y2="117" stroke="#f9e2af" stroke-width="2.5" marker-end="url(#ah)"/>
+<text x="425" y="108" font-size="12" fill="#f9e2af" text-anchor="middle" font-weight="bold">84s</text>
+<rect x="480" y="70" width="380" height="95" rx="8" fill="#22302a" stroke="#a6e3a1" stroke-width="2"/>
+<text x="500" y="98" font-size="14" fill="#a6e3a1" text-anchor="start" font-weight="bold">TX 2 — EXTRACTION</text>
+<text x="500" y="120" font-size="12" fill="#a6adc8" text-anchor="start" font-weight="normal">07:48:11 UTC  ·  block 23,717,404</text>
+<text x="500" y="140" font-size="12" fill="#cdd6f4" text-anchor="start" font-weight="normal">0x8a4f75d6() → manageUserBalance</text>
+<text x="500" y="158" font-size="12" fill="#a6adc8" text-anchor="start" font-weight="normal">withdraw internal balance → Exploiter 2</text>
+</svg>

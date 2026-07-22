@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="470" viewBox="0 0 940 470" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<rect width="940" height="470" fill="#11111b"/>
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#a6adc8"/></marker></defs>
+<text x="40" y="38" font-size="16" fill="#cba6f7" text-anchor="start" font-weight="bold">ACTOR TOPOLOGY &amp; FUND FLOW</text>
+<rect x="40" y="80" width="250" height="64" rx="8" fill="#2a1f24" stroke="#f38ba8" stroke-width="2"/>
+<text x="60" y="104" font-size="13" fill="#f38ba8" text-anchor="start" font-weight="bold">EXPLOITER 1  (deployer EOA)</text>
+<text x="60" y="126" font-size="11" fill="#a6adc8" text-anchor="start" font-weight="normal">0x506D…AE03207</text>
+<line x1="165" y1="144" x2="165" y2="196" stroke="#f38ba8" stroke-width="2" marker-end="url(#ah)"/>
+<text x="245" y="172" font-size="11" fill="#f38ba8" text-anchor="end" font-weight="normal">deploy (create2)</text>
+<rect x="40" y="196" width="250" height="64" rx="8" fill="#241f2a" stroke="#cba6f7" stroke-width="2"/>
+<text x="60" y="220" font-size="13" fill="#cba6f7" text-anchor="start" font-weight="bold">EXPLOIT CONTRACT</text>
+<text x="60" y="242" font-size="11" fill="#a6adc8" text-anchor="start" font-weight="normal">0x54B5…aBa30d</text>
+<line x1="290" y1="214" x2="430" y2="120" stroke="#f9e2af" stroke-width="2.5" marker-end="url(#ah)"/>
+<text x="360" y="142" font-size="11" fill="#f9e2af" text-anchor="end" font-weight="bold">constructor:</text>
+<text x="360" y="156" font-size="11" fill="#f9e2af" text-anchor="end" font-weight="bold">batchSwap()</text>
+<rect x="430" y="80" width="250" height="80" rx="8" fill="#1c2730" stroke="#89b4fa" stroke-width="2"/>
+<text x="450" y="104" font-size="13" fill="#89b4fa" text-anchor="start" font-weight="bold">BALANCER V2 VAULT</text>
+<text x="450" y="124" font-size="11" fill="#a6adc8" text-anchor="start" font-weight="normal">0xBA12…BF2C8</text>
+<text x="450" y="146" font-size="11" fill="#a6adc8" text-anchor="start" font-weight="normal">shared liquidity; holds all tokens</text>
+<rect x="430" y="230" width="250" height="58" rx="8" fill="#22271f" stroke="#a6e3a1" stroke-width="1.5"/>
+<text x="450" y="254" font-size="12" fill="#a6e3a1" text-anchor="start" font-weight="bold">POOL 1  osETH/wETH</text>
+<text x="450" y="274" font-size="11" fill="#a6adc8" text-anchor="start" font-weight="normal">0xdacf…2850c   A=200,000</text>
+<rect x="430" y="300" width="250" height="58" rx="8" fill="#22271f" stroke="#a6e3a1" stroke-width="1.5"/>
+<text x="450" y="324" font-size="12" fill="#a6e3a1" text-anchor="start" font-weight="bold">POOL 2  wstETH/WETH</text>
+<text x="450" y="344" font-size="11" fill="#a6adc8" text-anchor="start" font-weight="normal">0x93d1…5f0bd   A=5,000,000</text>
+<line x1="555" y1="160" x2="555" y2="228" stroke="#89b4fa" stroke-width="2" marker-end="url(#ah)"/>
+<line x1="555" y1="288" x2="555" y2="298" stroke="#89b4fa" stroke-width="2" marker-end="url(#ah)"/>
+<line x1="290" y1="240" x2="430" y2="400" stroke="#a6e3a1" stroke-width="2.5" marker-end="url(#ah)" stroke-dasharray="6,4"/>
+<text x="345" y="352" font-size="11" fill="#a6e3a1" text-anchor="end" font-weight="bold">manageUserBalance()</text>
+<text x="345" y="366" font-size="11" fill="#a6e3a1" text-anchor="end" font-weight="bold">withdraw</text>
+<rect x="430" y="392" width="250" height="56" rx="8" fill="#2a1f24" stroke="#f38ba8" stroke-width="2"/>
+<text x="450" y="416" font-size="13" fill="#f38ba8" text-anchor="start" font-weight="bold">EXPLOITER 2  (recipient)</text>
+<text x="450" y="438" font-size="11" fill="#a6adc8" text-anchor="start" font-weight="normal">0xAa76…b8e3f</text>
+</svg>
