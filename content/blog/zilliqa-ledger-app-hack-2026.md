@@ -1,36 +1,160 @@
 +++
 title = "Zilliqa Ledger App Hack (2026)"
-description = "A critical vulnerability in the Zilliqa Ledger app leaks 64 bits per signature, letting anyone recover the private key of accounts that signed native ZIL transactions since 2019."
+description = "A nonce-truncation bug in the Zilliqa Ledger app (schnorr.c, since 2019) leaks 64 bits per signature. A lattice HNP attack recovers the private key from 4–5 public signatures."
 date = 2026-07-22
 [taxonomies]
 tags = ["security", "zilliqa", "ledger", "cryptography", "disclosure"]
 [extra]
 author = "Rinat Khasanshin"
+katex = true
 +++
 
-> **TL;DR** — Native ZIL transactions signed on a Ledger device leak **64 bits of the nonce** in every signature. Using a lattice-based Hidden Number Problem (HNP) attack, anyone can recover the account's **private key from as few as 4–5 signatures** using nothing but public on-chain data. The flaw has existed since **2019**. Updating the app does **not** protect keys that have already signed — the damaging signatures are permanent on-chain.
+> **TL;DR** — `os_memcpy(T->K, nonce, 32)` copies the **wrong** 32 bytes out of a 40-byte buffer, zeroing the top 64 bits of every Schnorr nonce. Each signature leaks $k < 2^{192}$. An LLL lattice attack (HNP) recovers $d$ from $\geq 4$ public $(r, s)$ pairs. Flaw present since commit `61dda37` (Aug 2019). Patching cannot undo on-chain signatures.
 
-## The vulnerability
+![Buffer layout: how os_memcpy truncates the nonce from 256 to 192 bits](/blog/zilliqa-ledger-app-hack-2026/nonce-truncation.jpg)
 
-The Zilliqa Ledger app signs native ZIL transactions using a Schnorr signature scheme. The security of Schnorr (like ECDSA) depends entirely on the secret nonce `k` being uniformly random and fully secret. If any bits of `k` are predictable across several signatures, the private key can be reconstructed.
+## The signing scheme
 
-In the Ledger app's nonce generation, the buffer holding `k` is truncated incorrectly:
+Zilliqa uses Schnorr over secp256k1 ($n \approx 2^{256}$, $G$ the base point). For private key $d$, public key $P = dG$, message $m$:
 
+$$Q = kG \qquad r = H_2\!\big(\overline{Q}\,\|\,\overline{P}\,\|\,m\big) \bmod n \qquad s = (k - rd) \bmod n$$
+
+where $\overline{(\cdot)}$ denotes compressed encoding ($\texttt{02/03}\|x$). Signature is $(r, s) \in \mathbb{Z}_n^2$ — 64 bytes.
+
+Security reduces entirely to nonce secrecy. If $k$ is known, $d = (k - s) \cdot r^{-1} \bmod n$. If *part* of $k$ is known across multiple signatures, the **Hidden Number Problem** applies.
+
+## The bug: nonce truncation
+
+### Vulnerable code
+
+From `src/schnorr.c`, function `zil_ecschnorr_sign_init` (commit `61dda37`, Aug 2019):
+
+```c
+//generate random, pick a few extra bytes for better security.
+unsigned char nonce[size+8];                            // 40 bytes
+cx_rng(nonce, size+8);                                  // fill 40 bytes
+cx_math_modm(nonce, size+8,                             // reduce 40-byte value
+             (unsigned char *)domain->n, size);         //   modulo 32-byte n
+os_memcpy(T->K, nonce, size);                           // ← BUG: copies bytes 0..31
 ```
-schnorr.c:74-76
+
+### Buffer layout
+
+`cx_math_modm(v, len_v, n, len_n)` reduces a `len_v`-byte big-endian integer modulo `len_n`-byte $n$, storing the result **right-aligned** in the `len_v`-byte buffer. With `len_v = 40`, `len_n = 32`:
+
+$$\underbrace{b_0\; b_1\; \cdots\; b_{39}}_{\text{40 random bytes}} \xrightarrow{\;\bmod\; n\;} \underbrace{\overbrace{00\;00\;\cdots\;00}^{8 \text{ bytes}}\;\overbrace{v_0\;v_1\;\cdots\;v_{31}}^{32 \text{ bytes}}}_{\text{40-byte buffer, right-aligned}}$$
+
+Let $v = \texttt{cx\_rng}(40) \bmod n$ (the correct 256-bit nonce). The buffer holds $v$ right-padded: bytes $[0{,}..{,}7] = 0$, bytes $[8{,}..{,}39] = v$.
+
+`os_memcpy(T->K, nonce, 32)` copies bytes $[0{,}..{,}31]$:
+
+$$\texttt{T.K} = \underbrace{00\;\cdots\;00}_{8} \;\|\; v_0\;v_1\;\cdots\;v_{23}$$
+
+As a 256-bit integer:
+
+$$k = \sum_{i=0}^{23} v_i \cdot 2^{8(23-i)} = \left\lfloor \frac{v}{2^{64}} \right\rfloor$$
+
+Since $v < n < 2^{256}$:
+
+$$\boxed{k < \frac{2^{256}}{2^{64}} = 2^{192}}$$
+
+**Every nonce has 64 zero MSBs.** The bottom 64 bits of $v$ (bytes $v_{24{,}..{,}31}$) are silently discarded.
+
+### The fix
+
+```c
+os_memcpy(T->K, nonce + 8, size);   // take LAST 32 bytes: v_0..v_31
 ```
 
-The result is that **64 high (or low) bits of every nonce are zero**. Each signature therefore quietly discloses a 64-bit window into the secret nonce — and does so on the public ledger, forever.
+## From truncation to key recovery
 
-## Why 64 leaked bits is fatal
+### Per-signature constraint
 
-This is a textbook **Hidden Number Problem**. Each signature gives a linear relation involving the private key and a *partially known* nonce. With enough of these relations, recovering the key becomes a **Closest Vector Problem** in a lattice, solvable with **LLL** reduction.
+From $s = (k - rd) \bmod n$:
 
-With 64 known bits per signature over the ~256-bit curve order, only a handful of signatures are needed. In practice **as few as 4 signatures** are enough to build a lattice whose short vector reveals the private key.
+$$k \equiv s + rd \pmod{n}$$
+
+With the bug, $0 \leq k_i < 2^{192}$ for every signature $i$. Each $(r_i, s_i)$ pair therefore constrains:
+
+$$0 \;\leq\; \big(s_i + r_i d\big) \bmod n \;<\; 2^{192}$$
+
+This is an instance of the **Hidden Number Problem** (Boneh–Venkatesan, 2001): given $m$ samples $(r_i, s_i)$ with $t_i = (s_i + r_i d) \bmod n$ satisfying $0 \leq t_i < 2^{\ell}$ where $\ell = 192$, recover $d$.
+
+### Information-theoretic bound
+
+Each sample constrains $d$ to a $1/2^{64}$ fraction of $\mathbb{Z}_n$. Recovering $d$ requires:
+
+$$m \cdot 64 \geq 256 \quad\Longrightarrow\quad m_{\min} = \left\lceil \frac{256}{64} \right\rceil = 4$$
+
+At $m = 4$ the attack is information-theoretically possible but lattice-reduction-tight. At $m \geq 5$ it is reliable.
+
+## Lattice construction
+
+### Recentering
+
+Breitner–Heninger recentering halves the target norm. Substitute $t_i = 2^{191} + e_i$ with $|e_i| \leq 2^{191}$, and $s'_i = (s_i - 2^{191}) \bmod n$:
+
+$$e_i \equiv s'_i + r_i d \pmod{n}, \qquad |e_i| \leq 2^{191}$$
+
+### Basis matrix
+
+Given $m$ signatures, let $K = 2^{191}$. Construct the $(m+2)$-dimensional lattice $\Lambda \subset \mathbb{Z}^{m+2}$ with basis:
+
+$$B = \begin{pmatrix}
+n & & & & & \\
+& n & & & & \\
+& & \ddots & & & \\
+& & & n & & \\
+r_1 & r_2 & \cdots & r_m & K/n & 0 \\
+s'_1 & s'_2 & \cdots & s'_m & 0 & K
+\end{pmatrix} \in \mathbb{Z}^{(m+2) \times (m+2)}$$
+
+### Target short vector
+
+$$\mathbf{t} = \big(e_1,\; e_2,\; \ldots,\; e_m,\; Kd/n,\; K\big) \in \Lambda$$
+
+$\mathbf{t}$ is a lattice vector: subtracting row $m$ and row $m{+}1$ from appropriate multiples of rows $0{,}..{,}m{-}1$ zeroes the first $m$ coordinates (since $e_i \equiv s'_i + r_i d \pmod n$). Its norm:
+
+$$\|\mathbf{t}\| \approx \sqrt{m+1} \cdot 2^{191}$$
+
+### Extracting $d$
+
+Once LLL finds $\mathbf{t}$ (or a scalar multiple), read off coordinate $m$:
+
+$$d = \frac{\mathbf{t}[m] \cdot n}{K} \pmod{n}$$
+
+Self-verify: accept $d$ iff $dG \stackrel{?}{=} P$ (the device public key).
+
+## Why LLL succeeds: gap analysis
+
+### Determinant
+
+$$\det(\Lambda) = n^{m-1} \cdot K^2 = n^{m-1} \cdot 2^{382}$$
+
+### Gaussian heuristic for $\lambda_1$
+
+$$\lambda_1(\Lambda) \approx \sqrt{\frac{m+2}{2\pi e}} \cdot \det(\Lambda)^{1/(m+2)}$$
+
+$$\log_2 \lambda_1 \approx \frac{(m-1) \cdot 256 + 382}{m+2} + \frac{1}{2}\log_2\!\left(\frac{m+2}{2\pi e}\right)$$
+
+### Gap per $m$
+
+The gap is $\log_2 \lambda_1 - \log_2 \|\mathbf{t}\|$ — how much "room" LLL has. LLL outputs a vector within $2^{(d-1)/4}$ of $\lambda_1$ (theoretical worst case); in practice much closer.
+
+| $m$ | $\dim$ | $\log_2 \det^{1/d}$ | $\log_2 \|\mathbf{t}\|$ | gap | verdict |
+|-----|--------|----------------------|--------------------------|-----|---------|
+| 3 | 5 | $\frac{768+382}{5} = 230$ | $\approx 192$ | $-38$ | **impossible** (info-theoretic) |
+| 4 | 6 | $\frac{768+382}{6} \approx 191.7$ | $\approx 192.2$ | $\approx -0.5$ | borderline |
+| 5 | 7 | $\frac{1024+382}{7} \approx 200.9$ | $\approx 192.3$ | $\approx -8.6$ | reliable |
+| 6 | 8 | $\frac{1280+382}{8} = 207.8$ | $\approx 192.5$ | $\approx -15.3$ | trivial |
+
+Negative gap means $\|\mathbf{t}\| < \lambda_1(\Lambda)$ — the target vector is **shorter** than the expected shortest vector, so LLL finds it as one of its first reduced basis vectors.
+
+At $m = 4$ the target sits right at $\lambda_1$; LLL may need $\pm$-combination of basis vectors to extract it. At $m \geq 5$ it dominates.
 
 ## Proof of concept
 
-The attack uses only publicly available blockchain data — the attacker never needs the device. Collect a target account's signed transactions, extract the `(r, s)` pairs, build the lattice, run LLL, and read off the key.
+The attack uses **only** public on-chain data — the device is never needed. Collect the target account's signed transactions, extract $(r, s)$ pairs, build the lattice, run LLL, verify $dG = P$.
 
 ```python
 #!/usr/bin/env python3
@@ -75,7 +199,7 @@ def inv(a, m=Pp): return pow(a % m, m - 2, m)
 def add(A, B):
     if A is None: return B
     if B is None: return A
-    if A[0] == B[0] and (A[1] + B[1]) % Pp == 0: return None
+    if A[0] == B[0] and (A[1] + A[1]) % Pp == 0: return None
     lam = (3*A[0]*A[0]*inv(2*A[1])) % Pp if A == B else ((B[1]-A[1])*inv(B[0]-A[0])) % Pp
     x = (lam*lam - A[0] - B[0]) % Pp
     return (x, (lam*(A[0]-x) - A[1]) % Pp)

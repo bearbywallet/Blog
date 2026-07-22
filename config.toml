@@ -32,6 +32,7 @@ theme = "catppuccin-mocha"
 [extra]
 color_scheme = "catppuccin-mocha"
 copy_button = true
+katex = true
 feed_icon = true
 layout = "center"
 
