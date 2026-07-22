@@ -199,7 +199,7 @@ def inv(a, m=Pp): return pow(a % m, m - 2, m)
 def add(A, B):
     if A is None: return B
     if B is None: return A
-    if A[0] == B[0] and (A[1] + A[1]) % Pp == 0: return None
+    if A[0] == B[0] and (A[1] + B[1]) % Pp == 0: return None
     lam = (3*A[0]*A[0]*inv(2*A[1])) % Pp if A == B else ((B[1]-A[1])*inv(B[0]-A[0])) % Pp
     x = (lam*lam - A[0] - B[0]) % Pp
     return (x, (lam*(A[0]-x) - A[1]) % Pp)
