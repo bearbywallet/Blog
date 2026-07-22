@@ -1,0 +1,13 @@
+# Zola
+public/
+*.swp
+*~
+
+# Операционные системы
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.iml
