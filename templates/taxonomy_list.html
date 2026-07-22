@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{{ taxonomy.name }}</title>
+    </head>
+    <body>
+        <h1>{{ taxonomy.name }}</h1>
+        <ul>
+            {% for term in terms %}
+            <li><a href="{{ term.permalink | safe }}">{{ term.name }}</a> ({{ term.pages | length }})</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
