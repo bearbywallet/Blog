@@ -3,7 +3,7 @@ base_url = "https://blog.bearby.io/"
 
 # The site title and description; used in feeds and by the theme.
 title = "Bearby Blog"
-description = "The official blog of Bearby — a non-custodial wallet for the Massa blockchain."
+description = "The official blog of Bearby — a non-custodial, quantum-resistant, multi-chain wallet."
 
 # The default author for pages
 author = "Bearby"
