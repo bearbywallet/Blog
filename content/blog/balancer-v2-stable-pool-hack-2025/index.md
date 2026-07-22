@@ -21,13 +21,13 @@ alt_text = "Anatomy of the Balancer V2 ComposableStablePool hack — $71M draine
 
 | | |
 |---|---|
-| **Theft tx** | `0x6ed07db1…23bc9742` — block **23,717,397**, `07:46:47 UTC`, status ✅ |
-| **Extraction tx** | `0xd1552072…5b48569` — block **23,717,404**, `07:48:11 UTC` (84 s later) |
-| **Exploit contract** | `0x54B53503c0e2173Df29f8da735fBd45Ee8aBa30d` |
-| **Deployer (EOA)** | `0x506D1f9EFe24f0d47853aDca907EB8d89AE03207` |
-| **Recipient (EOA)** | `0xAa760D53541d8390074c61DEFeaba314675b8e3f` |
-| **Pool 1** | `0xdacf5fa1…2850c` — *osETH/wETH* StablePool, $A = 200{,}000$ |
-| **Pool 2** | `0x93d19926…5f0bd` — *wstETH/WETH* StablePool, $A = 5{,}000{,}000$ |
+| **Theft tx** | [`0x6ed07db1…23bc9742`](https://etherscan.io/tx/0x6ed07db1a9fe5c0794d44cd36081d6a6df103fab868cdd75d581e3bd23bc9742) — block **23,717,397**, `07:46:47 UTC`, status ✅ |
+| **Extraction tx** | [`0xd1552072…5b48569`](https://etherscan.io/tx/0xd155207261712c35fa3d472ed1e51bfcd816e616dd4f517fa5959836f5b48569) — block **23,717,404**, `07:48:11 UTC` (84 s later) |
+| **Exploit contract** | [`0x54B53503c0e2173Df29f8da735fBd45Ee8aBa30d`](https://etherscan.io/address/0x54B53503c0e2173Df29f8da735fBd45Ee8aBa30d) |
+| **Deployer (EOA)** | [`0x506D1f9EFe24f0d47853aDca907EB8d89AE03207`](https://etherscan.io/address/0x506D1f9EFe24f0d47853aDca907EB8d89AE03207) |
+| **Recipient (EOA)** | [`0xAa760D53541d8390074c61DEFeaba314675b8e3f`](https://etherscan.io/address/0xAa760D53541d8390074c61DEFeaba314675b8e3f) |
+| **Pool 1** | [`0xdacf5fa1…2850c`](https://etherscan.io/address/0xdacf5fa19b1f720111609043ac67a9818262850c) — *osETH/wETH* StablePool, $A = 200{,}000$ |
+| **Pool 2** | [`0x93d19926…5f0bd`](https://etherscan.io/address/0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd) — *wstETH/WETH* StablePool, $A = 5{,}000{,}000$ |
 | **Swap events in tx1** | 226 (121 on pool 1, 105 on pool 2) |
 | **Fee transfers** | 65 (to the Protocol Fees Collector) |
 | **Net stolen** | 6,587 WETH + 6,851 osETH + 4,260 wstETH (+ 64.6 BPT scraps) |
@@ -52,7 +52,7 @@ cast call 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 \
 
 ## Background: the Vault and "composable" pools
 
-Balancer V2 centralizes all token custody in a single **Vault** (`0xBA12…BF2C8`). Pools are stateless pricing modules; the Vault moves the bytes. Two design choices matter here.
+Balancer V2 centralizes all token custody in a single **Vault** ([`0xBA12…BF2C8`](https://etherscan.io/address/0xBA12222222228d8Ba445958a75a0704d566BF2C8)). Pools are stateless pricing modules; the Vault moves the bytes. Two design choices matter here.
 
 **Internal balance.** The Vault credits each account a per-token internal balance. A `batchSwap` settles *net* deltas against internal balance at the end — so a contract can trade in circles and walk away with the net surplus, never touching ERC-20 `transfer` until it withdraws.
 
