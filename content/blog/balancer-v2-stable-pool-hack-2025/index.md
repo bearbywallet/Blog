@@ -1,7 +1,7 @@
 +++
 title = "Anatomy of the Balancer V2 ComposableStablePool Hack (Nov 2025)"
 description = "A forensic reconstruction of the $63M+ Balancer V2 exploit: how a scaling-factor rounding inconsistency in ComposableStablePool invariant math was weaponized in a 226-swap batchSwap. Verified entirely from on-chain data via cast/forge."
-date = 2026-07-23
+date = 2025-11-04
 [taxonomies]
 tags = ["security", "ethereum", "defi", "balancer", "exploit", "post-mortem"]
 [extra]
@@ -14,8 +14,6 @@ alt_text = "Anatomy of the Balancer V2 ComposableStablePool hack — $71M draine
 +++
 
 > **TL;DR** — On **2025-11-03 07:46:47 UTC**, a single contract-deployment transaction drained two Balancer V2 ComposableStablePools of **≈19,239 ETH** (${\approx \$71\text{M}}$ at the Chainlink spot of $\$3{,}709.52$). The constructor fired a `batchSwap` of **226 swaps** that resolved into three phases: a geometric BPT-exit cascade, a WETH↔osETH ping-pong that drives a token balance into the sub-100-wei regime, and a geometric BPT-mint cascade that re-mints the BPT for **~2.5% of fair value**. The root cause is a rounding inconsistency between the rate-based balance scaling (`mulDown`, floor division) and the invariant $D$ recomputation at high amplification. Every number below is read directly from mainnet with `cast`.
-
-![Cover](cover.png)
 
 ## The evidence, verified on-chain
 
