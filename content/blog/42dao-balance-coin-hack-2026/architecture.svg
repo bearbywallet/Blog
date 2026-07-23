@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" font-family="monospace" font-size="13">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#89b4fa"/>
+    </marker>
+    <marker id="arrR" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f38ba8"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="28" text-anchor="middle" fill="#cdd6f4" font-size="15" font-weight="bold">Balance Protocol — System Architecture (pre-exploit)</text>
+
+  <!-- User -->
+  <rect x="30" y="230" width="120" height="70" rx="8" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="90" y="258" text-anchor="middle" fill="#a6e3a1">User</text>
+  <text x="90" y="278" text-anchor="middle" fill="#6c7086" font-size="11">holds BCH</text>
+
+  <!-- Protocol -->
+  <rect x="240" y="100" width="160" height="110" rx="8" fill="#1e1e2e" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="320" y="128" text-anchor="middle" fill="#89b4fa" font-weight="bold">Protocol</text>
+  <text x="320" y="146" text-anchor="middle" fill="#6c7086" font-size="11">0x0653…C2c5</text>
+  <text x="320" y="166" text-anchor="middle" fill="#a6adc8" font-size="11">pledge() / remove()</text>
+  <text x="320" y="184" text-anchor="middle" fill="#a6adc8" font-size="11">owner: 0x2c0c…77C1</text>
+
+  <!-- Oracle -->
+  <rect x="500" y="100" width="160" height="110" rx="8" fill="#1e1e2e" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="580" y="128" text-anchor="middle" fill="#f9e2af" font-weight="bold">Oracle</text>
+  <text x="580" y="146" text-anchor="middle" fill="#6c7086" font-size="11">0x5A5E…28B0</text>
+  <text x="580" y="166" text-anchor="middle" fill="#a6adc8" font-size="11">getPrice() — PUSH</text>
+  <text x="580" y="184" text-anchor="middle" fill="#a6adc8" font-size="11">owner: 0xD2C0…fa84</text>
+
+  <!-- Oracle operator -->
+  <rect x="500" y="20" width="160" height="50" rx="8" fill="#1e1e2e" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="580" y="42" text-anchor="middle" fill="#f38ba8" font-size="12">Oracle Operator</text>
+  <text x="580" y="58" text-anchor="middle" fill="#6c7086" font-size="11">single EOA — setRound()</text>
+
+  <!-- BLC Token -->
+  <rect x="240" y="280" width="160" height="90" rx="8" fill="#1e1e2e" stroke="#cba6f7" stroke-width="1.5"/>
+  <text x="320" y="308" text-anchor="middle" fill="#cba6f7" font-weight="bold">BLC Token</text>
+  <text x="320" y="326" text-anchor="middle" fill="#6c7086" font-size="11">0x5343…4668</text>
+  <text x="320" y="346" text-anchor="middle" fill="#a6adc8" font-size="11">DSToken (Dai-style)</text>
+  <text x="320" y="362" text-anchor="middle" fill="#a6adc8" font-size="11">wards → mint()</text>
+
+  <!-- BCH_FRV_Pool -->
+  <rect x="500" y="280" width="160" height="90" rx="8" fill="#1e1e2e" stroke="#fab387" stroke-width="1.5"/>
+  <text x="580" y="308" text-anchor="middle" fill="#fab387" font-weight="bold">BCH_FRV_Pool</text>
+  <text x="580" y="326" text-anchor="middle" fill="#6c7086" font-size="11">0x2E70…6F4C</text>
+  <text x="580" y="346" text-anchor="middle" fill="#a6adc8" font-size="11">move() → transfer BCH</text>
+  <text x="580" y="362" text-anchor="middle" fill="#a6adc8" font-size="11">auth[msg.sender]==1</text>
+
+  <!-- USDT Pool -->
+  <rect x="30" y="380" width="140" height="80" rx="8" fill="#1e1e2e" stroke="#94e2d5" stroke-width="1.5"/>
+  <text x="100" y="408" text-anchor="middle" fill="#94e2d5" font-weight="bold">USDT Pool</text>
+  <text x="100" y="426" text-anchor="middle" fill="#a6adc8" font-size="11">BLC ↔ USDT 1:1</text>
+  <text x="100" y="442" text-anchor="middle" fill="#6c7086" font-size="11">≈ $915K reserves</text>
+
+  <!-- PancakeSwap -->
+  <rect x="700" y="280" width="180" height="90" rx="8" fill="#1e1e2e" stroke="#89dceb" stroke-width="1.5"/>
+  <text x="790" y="308" text-anchor="middle" fill="#89dceb" font-weight="bold">PancakeSwap</text>
+  <text x="790" y="326" text-anchor="middle" fill="#a6adc8" font-size="11">BLC/USDT pair</text>
+  <text x="790" y="344" text-anchor="middle" fill="#a6adc8" font-size="11">BLC/BCH pair</text>
+  <text x="790" y="362" text-anchor="middle" fill="#a6adc8" font-size="11">x·y = k (0.3% fee)</text>
+
+  <!-- Flows -->
+  <!-- User → Protocol: pledge BCH -->
+  <line x1="150" y1="250" x2="240" y2="190" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="175" y="210" fill="#a6e3a1" font-size="10">① pledge(BCH)</text>
+
+  <!-- Protocol → Oracle: getPrice -->
+  <line x1="400" y1="155" x2="500" y2="155" stroke="#f9e2af" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="415" y="148" fill="#f9e2af" font-size="10">② getPrice(BCH)</text>
+  <text x="415" y="170" fill="#f9e2af" font-size="10">getPrice(BLC)</text>
+
+  <!-- Oracle operator → Oracle: setRound -->
+  <line x1="580" y1="70" x2="580" y2="100" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#arrR)"/>
+  <text x="590" y="92" fill="#f38ba8" font-size="10">setRound() ✗</text>
+
+  <!-- Protocol → BLC: mint -->
+  <line x1="320" y1="210" x2="320" y2="280" stroke="#cba6f7" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="330" y="250" fill="#cba6f7" font-size="10">③ mint(BLC)</text>
+
+  <!-- Protocol → Pool: move BCH -->
+  <line x1="400" y1="320" x2="500" y2="320" stroke="#fab387" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="415" y="312" fill="#fab387" font-size="10">④ move(BCH)</text>
+
+  <!-- User → USDT Pool -->
+  <line x1="90" y1="300" x2="90" y2="380" stroke="#94e2d5" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="100" y="350" fill="#94e2d5" font-size="10">⑤ swap 1:1</text>
+
+  <!-- BLC → PancakeSwap -->
+  <line x1="400" y1="325" x2="700" y2="325" stroke="#89dceb" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+  <text x="490" y="318" fill="#89dceb" font-size="10">secondary market</text>
+
+  <!-- Trust boundary -->
+  <rect x="470" y="85" width="220" height="300" rx="10" fill="none" stroke="#f38ba8" stroke-width="1" stroke-dasharray="6,4" opacity="0.4"/>
+  <text x="580" y="400" text-anchor="middle" fill="#f38ba8" font-size="10" opacity="0.6">TRUST BOUNDARY — single-key control</text>
+</svg>

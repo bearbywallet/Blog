@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" font-family="monospace" font-size="12">
+  <defs>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f38ba8"/>
+    </marker>
+    <marker id="arr2g" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arr2y" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f9e2af"/>
+    </marker>
+  </defs>
+
+  <text x="460" y="28" text-anchor="middle" fill="#cdd6f4" font-size="15" font-weight="bold">Attack Flow — $915K Drain in a Single Transaction Sequence</text>
+
+  <!-- Phase labels -->
+  <rect x="20" y="55" width="200" height="24" rx="4" fill="#313244"/>
+  <text x="120" y="72" text-anchor="middle" fill="#f38ba8" font-weight="bold">PHASE 1 — Key Compromise</text>
+  <rect x="20" y="235" width="200" height="24" rx="4" fill="#313244"/>
+  <text x="120" y="252" text-anchor="middle" fill="#f9e2af" font-weight="bold">PHASE 2 — Unbacked Minting</text>
+  <rect x="20" y="395" width="200" height="24" rx="4" fill="#313244"/>
+  <text x="120" y="412" text-anchor="middle" fill="#a6e3a1" font-weight="bold">PHASE 3 — Liquidity Drain</text>
+
+  <!-- Phase 1 -->
+  <rect x="50" y="90" width="180" height="50" rx="8" fill="#1e1e2e" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="140" y="112" text-anchor="middle" fill="#f38ba8">Attacker EOA</text>
+  <text x="140" y="128" text-anchor="middle" fill="#6c7086" font-size="10">compromised key</text>
+
+  <rect x="290" y="90" width="180" height="50" rx="8" fill="#1e1e2e" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="380" y="108" text-anchor="middle" fill="#f9e2af">Oracle</text>
+  <text x="380" y="126" text-anchor="middle" fill="#a6adc8" font-size="10">setRound(BCH, $∞)</text>
+
+  <rect x="530" y="90" width="180" height="50" rx="8" fill="#1e1e2e" stroke="#cba6f7" stroke-width="1.5"/>
+  <text x="620" y="108" text-anchor="middle" fill="#cba6f7">BLC Token</text>
+  <text x="620" y="126" text-anchor="middle" fill="#a6adc8" font-size="10">wards[attacker] = 1</text>
+
+  <line x1="230" y1="115" x2="290" y2="115" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <text x="258" y="108" text-anchor="middle" fill="#f38ba8" font-size="10">①a</text>
+
+  <line x1="470" y1="115" x2="530" y2="115" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <text x="498" y="108" text-anchor="middle" fill="#f38ba8" font-size="10">①b</text>
+
+  <text x="140" y="170" text-anchor="middle" fill="#6c7086" font-size="10">Compromise oracle operator key</text>
+  <text x="140" y="185" text-anchor="middle" fill="#6c7086" font-size="10">OR BLC ward key</text>
+  <text x="380" y="170" text-anchor="middle" fill="#6c7086" font-size="10">Push BCH price to</text>
+  <text x="380" y="185" text-anchor="middle" fill="#6c7086" font-size="10">astronomical value</text>
+  <text x="620" y="170" text-anchor="middle" fill="#6c7086" font-size="10">Grant direct mint</text>
+  <text x="620" y="185" text-anchor="middle" fill="#6c7086" font-size="10">authority</text>
+
+  <!-- Phase 2 -->
+  <rect x="50" y="265" width="180" height="55" rx="8" fill="#1e1e2e" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="140" y="288" text-anchor="middle" fill="#f9e2af">Attacker calls</text>
+  <text x="140" y="304" text-anchor="middle" fill="#a6adc8" font-size="10">mint(attacker,</text>
+  <text x="140" y="316" text-anchor="middle" fill="#a6adc8" font-size="10">9,910,949 BLC)</text>
+
+  <rect x="290" y="265" width="180" height="55" rx="8" fill="#1e1e2e" stroke="#cba6f7" stroke-width="1.5"/>
+  <text x="380" y="290" text-anchor="middle" fill="#cba6f7">BLC totalSupply</text>
+  <text x="380" y="308" text-anchor="middle" fill="#f38ba8" font-size="11">≈ 350K → 9,910,949</text>
+  <text x="380" y="316" text-anchor="middle" fill="#6c7086" font-size="10">28× inflation</text>
+
+  <rect x="530" y="265" width="180" height="55" rx="8" fill="#1e1e2e" stroke="#fab387" stroke-width="1.5"/>
+  <text x="620" y="288" text-anchor="middle" fill="#fab387">BLC backing</text>
+  <text x="620" y="306" text-anchor="middle" fill="#f38ba8" font-size="11">9.56M BLC unbacked</text>
+  <text x="620" y="316" text-anchor="middle" fill="#6c7086" font-size="10">0 BCH collateral</text>
+
+  <line x1="230" y1="292" x2="290" y2="292" stroke="#f9e2af" stroke-width="1.5" marker-end="url(#arr2y)"/>
+  <text x="258" y="285" text-anchor="middle" fill="#f9e2af" font-size="10">②</text>
+
+  <line x1="470" y1="292" x2="530" y2="292" stroke="#f9e2af" stroke-width="1.5" marker-end="url(#arr2y)"/>
+  <text x="498" y="285" text-anchor="middle" fill="#f9e2af" font-size="10">③</text>
+
+  <!-- Phase 3 -->
+  <rect x="50" y="430" width="180" height="55" rx="8" fill="#1e1e2e" stroke="#94e2d5" stroke-width="1.5"/>
+  <text x="140" y="452" text-anchor="middle" fill="#94e2d5">USDT Pool drain</text>
+  <text x="140" y="470" text-anchor="middle" fill="#a6adc8" font-size="10">BLC→USDT @ 1:1</text>
+  <text x="140" y="482" text-anchor="middle" fill="#a6e3a1" font-size="10">≈ $915,000 extracted</text>
+
+  <rect x="290" y="430" width="180" height="55" rx="8" fill="#1e1e2e" stroke="#89dceb" stroke-width="1.5"/>
+  <text x="380" y="452" text-anchor="middle" fill="#89dceb">PancakeSwap dump</text>
+  <text x="380" y="470" text-anchor="middle" fill="#a6adc8" font-size="10">remaining BLC → USDT</text>
+  <text x="380" y="482" text-anchor="middle" fill="#a6adc8" font-size="10">BLC → BCH</text>
+
+  <rect x="530" y="430" width="180" height="55" rx="8" fill="#1e1e2e" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="620" y="450" text-anchor="middle" fill="#f38ba8">BLC price</text>
+  <text x="620" y="468" text-anchor="middle" fill="#f38ba8" font-size="13" font-weight="bold">$1.00 → $0.001358</text>
+  <text x="620" y="482" text-anchor="middle" fill="#6c7086" font-size="10">−99.86%</text>
+
+  <line x1="230" y1="457" x2="290" y2="457" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr2g)"/>
+  <text x="258" y="450" text-anchor="middle" fill="#a6e3a1" font-size="10">④</text>
+
+  <line x1="470" y1="457" x2="530" y2="457" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr2g)"/>
+  <text x="498" y="450" text-anchor="middle" fill="#a6e3a1" font-size="10">⑤</text>
+
+  <!-- Loot summary -->
+  <rect x="50" y="525" width="660" height="70" rx="8" fill="#181825" stroke="#f38ba8" stroke-width="1"/>
+  <text x="380" y="548" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="bold">Net extraction: ≈ $915,000 USDT + BCH</text>
+  <text x="380" y="568" text-anchor="middle" fill="#6c7086" font-size="11">BLC totalSupply: 9,910,949.93 (from verified contract) · Holders: 18,214 · Collateral ratio after: ≈ 0%</text>
+  <text x="380" y="584" text-anchor="middle" fill="#6c7086" font-size="11">Oracle state (current): getPrice(BTCB) = 0, getPrice(BCH) = $386.73, getPrice(BLC) = $1.00</text>
+</svg>
